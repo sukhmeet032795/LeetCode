@@ -1,68 +1,72 @@
 class Solution {
 public:
     
-    struct node{
-        char alph;
-        int count;
-        node(char al, int co) : alph(al), count(co) {};
-    };
+//     struct node{
+//         char key;
+//         int count;
+//         node(char k, int c) : key(k), count(c) {};
+//     };
     
-    string removeDuplicates(string S, int k) {
+//     string removeDuplicates(string s1, int k) {
         
-        stack<node> s;
-        int len = S.length(), count = 0;
-        char alph;
-        for(int i = 0; i < len;)
-        {
-            if(!s.empty())
-            {
-                node tmp = s.top();
-                if(tmp.alph == S[i])
-                {
-                    tmp.count += 1;
-                    s.pop();
-                    if(tmp.count != k)
-                        s.push(tmp);
-                    i++;
-                }
-                else
-                {
-                    if(tmp.count == k)
-                    {
-                        s.pop();
-                    }
-                    else
-                    {
-                        s.push(node(S[i], 1));
-                        i++;
-                    }
-                }
+//         int len = s1.length();
+//         stack<node> s;
+        
+//         int end = 0, count = 0;
+//         while(end < len)
+//         {
+//             if(s.empty())
+//             {
+//                 s.push(node(s1[end], 1));
+//                 end++;
+//             }
+//             else
+//             {
+//                 if(s.top().key != s1[end])
+//                 {
+//                     s.push(node(s1[end], 1));
+//                 }
+//                 else if(s.top().key == s1[end])
+//                 {
+//                     s.top().count = (s.top().count + 1);
+//                 }
+//                 end++;
+//                 if(s.top().count >= k)
+//                 {
+//                     s.pop();
+//                 }
+//             }
+//         };
+        
+//         string out = "";
+        
+//         while(!s.empty())
+//         {
+//             node tmp = s.top();
+//             s.pop();
+            
+//             if(tmp.count == k)
+//                   continue;
+            
+//             for(int i = 0; i < tmp.count; i++)
+//                 out = tmp.key + out;
+//         }
+        
+//         return out;
+//     }
+    
+    string removeDuplicates(string s, int k) {
+        auto j = 0;
+        stack<int> counts;
+        for (auto i = 0; i < s.size(); ++i, ++j) {
+            s[j] = s[i];
+            if (j == 0 || s[j] != s[j - 1]) {
+                counts.push(1);
+            } else if (++counts.top() == k) {
+                counts.pop();
+                j -= k;
             }
-            else
-            {
-                s.push(node(S[i], 1));
-                i++;
-            }
         }
-        
-        while(!s.empty())
-        {
-            node tmp = s.top();
-            if(tmp.count == k)
-                s.pop();
-            else
-                break;
-        }
-        
-        string out = "";
-        while(!s.empty())
-        {
-            node alp = s.top();
-            s.pop();
-            while(alp.count--)
-                out = alp.alph + out;
-        }
-        
-        return out;
+        return s.substr(0, j);
     }
 };
