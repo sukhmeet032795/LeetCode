@@ -2,65 +2,69 @@ class Solution {
 public:
     
     struct node{
-        char alph;
-        int count;
-        node(char al, int co) : alph(al), count(co) {};
+        char _ch;
+        int _count;
+        node(char ch, int count) : _ch(ch), _count(count) {};
     };
     
     string removeDuplicates(string S) {
         
+        int len = S.length(), end = 0;
+        if(len == 0)
+            return "";
+        
         stack<node> s;
-        int len = S.length(), count = 0;
-        char alph;
-        for(int i = 0; i < len;)
+        while(end < len)
         {
-            if(!s.empty())
+            if(s.empty())
             {
-                node tmp = s.top();
-                if(tmp.alph == S[i])
-                {
-                    tmp.count += 1;
-                    s.pop();
-                    // s.push(tmp);
-                    i++;
-                }
-                else
-                {
-                    if(tmp.count > 1)
-                    {
-                        s.pop();
-                    }
-                    else
-                    {
-                        s.push(node(S[i], 1));
-                        i++;
-                    }
-                }
+                s.push(node(S[end], 1));
+                end++;
             }
             else
             {
-                s.push(node(S[i], 1));
-                i++;
+                if(!s.empty() && s.top()._ch == S[end])
+                {
+                    s.top()._count = s.top()._count + 1;
+                    end++;
+                    continue;
+                }
+                else if(!s.empty() && s.top()._ch != S[end])
+                {
+                    if(s.top()._count % 2 == 0){
+                        s.pop();
+                        continue;
+                    }
+                    else if(s.top()._count % 2 != 0)
+                    {
+                        s.top()._count = (s.top()._count % 2);
+                    }
+                }
+                
+                s.push(node(S[end], 1));
+                end++;
             }
         }
         
         while(!s.empty())
         {
-            node tmp = s.top();
-            if(tmp.count == 2)
+            if(s.top()._count % 2 == 0){
                 s.pop();
-            else
+                continue;
+            }
+            else if(s.top()._count % 2 != 0)
+            {
+                s.top()._count = (s.top()._count % 2);
                 break;
+            }
         }
         
         string out = "";
         while(!s.empty())
         {
-            node alp = s.top();
+            out = s.top()._ch + out;
             s.pop();
-            out = alp.alph + out;
         }
-        
         return out;
-    }
+    };
 };
