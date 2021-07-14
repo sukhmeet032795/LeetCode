@@ -15,9 +15,6 @@ public:
                     continue;
                 }
                 
-                if(j == 0 && p.top() < matrix[i][j])
-                    break;
-                
                 if(!p.empty() && p.top() > matrix[i][j])
                 {
                     p.pop();
