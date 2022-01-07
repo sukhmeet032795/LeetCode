@@ -2,43 +2,42 @@ class Solution {
 public:
     
     struct customSort{
-        bool operator()(pair<int, int>& trip1, pair<int, int>& trip2) {
-            return trip1.first > trip2.first;
-        }
+        bool operator()(vector<int>& vec1, vector<int>& vec2) {
+            return vec1[1] < vec2[1];
+        };
     };
     
-    struct customSort1{
-        bool operator()(vector<int>& trip1, vector<int>& trip2) {
-            return trip1[1] < trip2[1];
-            if(trip1[1] == trip2[1])
-                return trip1[2] < trip2[2];
+    struct customSort2{
+        bool operator()(pair<int, int>& p1, pair<int, int>&p2) {
+            return p1.first > p2.first;
         }
     };
     
     bool carPooling(vector<vector<int>>& trips, int capacity) {
         
-        sort(trips.begin(), trips.end(), customSort1());
-        priority_queue<pair<int, int>, vector<pair<int, int>>, customSort> q;
-            
+        sort(trips.begin(), trips.end(), customSort());
+        priority_queue<pair<int, int>, vector<pair<int, int>>, customSort2> p;
+        
         for(int i = 0; i < trips.size(); i++) {
-            
-            if(q.empty()) {
+            if(p.empty()) {
                 if (capacity < trips[i][0])
                     return false;
                 capacity -= trips[i][0];
-                q.push(make_pair(trips[i][2], trips[i][0]));
+                p.push(make_pair(trips[i][2], trips[i][0]));
             }
             else {
-                while (!q.empty() && q.top().first <= trips[i][1]) {
-                    capacity += q.top().second;
-                    q.pop();
+                while(!p.empty() && p.top().first <= trips[i][1]) {
+                    capacity += p.top().second;
+                    p.pop();
                 }
+                
                 if (capacity < trips[i][0])
                     return false;
                 capacity -= trips[i][0];
-                q.push(make_pair(trips[i][2], trips[i][0]));
+                p.push(make_pair(trips[i][2], trips[i][0]));
             }
         }
+        
         return true;
-    }
+    };
 };
