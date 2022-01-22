@@ -12,23 +12,19 @@ using namespace std;
 class Solution
 {
     public:
+    
+    int search(int nums[], int l, int r) {
+        if (l == r)
+            return l;
+        int mid = (l + r) / 2;
+        if (nums[mid] > nums[mid + 1])
+            return search(nums, l, mid);
+        return search(nums, mid + 1, r);
+    }
+    
     int peakElement(int arr[], int n)
     {
-        vector<int> nums(n);
-        for(int i = 0; i < n; i++)
-            nums[i] = arr[i];
-            
-        nums.insert(nums.begin(), INT_MIN);
-        nums.insert(nums.end(), INT_MIN);
-        int ans = 0;
-        
-        for(int i = 1; i <= n; i++) {
-            if(nums[i] > nums[i-1] && nums[i] > nums[i+1])
-            {
-                ans = i-1;
-            }
-        }
-        return ans;
+        return search(arr, 0, n-1);
     }
 };
 
