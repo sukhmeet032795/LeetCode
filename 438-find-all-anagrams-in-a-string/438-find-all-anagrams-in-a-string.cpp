@@ -2,42 +2,29 @@ class Solution {
 public:
     vector<int> findAnagrams(string s, string p) {
         
-        if(s.length() < p.length())
-            return {};
+        int s_len = s.length();
+        int p_len = p.length();
         
-        vector<int> out;
-        map<char, int> m1, m2;
-        for(int i = 0; i < p.length(); i++) {
-            m1[p[i]]++;
+        if(s.size() < p.size()) return {};
+        
+        vector<int> freq_p(26,0);
+        vector<int> window(26,0);
+        
+        //first window
+        for(int i=0;i<p_len;i++){
+            freq_p[p[i]-'a']++;
+            window[s[i]-'a']++;
         }
         
-        int start = 0, end = 0, count = 0;
-        while(end < s.length()) {
-            
-            if(m1.find(s[end]) == m1.end()) {
-                end++;
-                start = end;
-                count = 0;
-                m2.clear();
-                continue;
-            }
-            
-            m2[s[end]]++;
-            count++;
-            
-            if(count == p.length() && m1 == m2)
-                out.push_back(end - p.length() + 1);
-            
-            while(count >= p.length()) {
-                m2[s[start]]--;
-                if(m2[s[start]] == 0)
-                    m2.erase(s[start]);
-                start++;
-                count--;
-            }
-            end++;
-        }
+        vector<int> ans;
+        if(freq_p == window) ans.push_back(0);
         
-        return out;
+        for(int i=p_len;i<s_len;i++){
+            window[s[i-p_len] - 'a']--;
+            window[s[i] - 'a']++;
+            
+            if(freq_p == window) ans.push_back(i-p_len+1);
+        }
+        return ans;
     }
 };
