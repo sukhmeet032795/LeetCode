@@ -3,7 +3,7 @@ public:
     int findPairs(vector<int>& nums, int k) {
         
         int len = nums.size();
-        map<int, int> m;
+        set<int> m;
         
         set<pair<int, int>> s;
         
@@ -27,7 +27,7 @@ public:
                     s.insert(make_pair(nums[i], tmp2));
             }
             
-            m[nums[i]] = i;
+            m.insert(nums[i]);
         }
         
         return s.size();
