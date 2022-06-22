@@ -2,8 +2,11 @@ class Solution {
 public:
     vector<int> runningSum(vector<int>& nums) {
         
-        for(int i = 1; i < nums.size(); i++) {
-            nums[i] += nums[i-1];
+        int tmp = 0, prev = 0;
+        for (auto &num : nums) {
+            tmp = num;
+            num += prev;
+            prev = num;
         }
         return nums;
     }
