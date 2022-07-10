@@ -5,7 +5,7 @@ public:
         int len = nums.size(), cInd = 0, zInd = 0;
         while(cInd < len) {
             if (nums[cInd] != 0) {
-                nums[zInd++] = nums[cInd];
+                swap(nums[zInd++], nums[cInd]);
             }
             cInd++;
         }
