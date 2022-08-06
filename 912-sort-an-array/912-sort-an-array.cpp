@@ -1,29 +1,24 @@
 class Solution {
 public:
     
-    void merge(int &start, int &mid, int &end, vector<int> &nums) {
+    void merge(int &start, int &mid, int &end, vector<int>& nums) {
         
-        int i = start, j = mid+1;
-        vector<int> tmp;
-        for( ; i <= mid && j <= end; ) {
+        int i = start, j = (mid + 1);
+        vector<int> out;
+        while(i <= mid && j <= end) {
             if (nums[i] <= nums[j]) {
-                tmp.emplace_back(nums[i++]);
+                out.emplace_back(nums[i++]);
             } else {
-                tmp.emplace_back(nums[j++]);
+                out.emplace_back(nums[j++]);
             }
         };
         
-        while(i <= mid) {
-            tmp.emplace_back(nums[i++]);
-        }
-        
-        while(j <= end) {
-            tmp.emplace_back(nums[j++]);
-        }
+        while(i <= mid) { out.emplace_back(nums[i++]); }
+        while(j <= end) { out.emplace_back(nums[j++]); }
         
         int ind = 0;
         for(int i = start; i <= end; i++) {
-            nums[i] = tmp[ind++];
+            nums[i] = out[ind++];
         };
     };
     
@@ -40,8 +35,8 @@ public:
     
     vector<int> sortArray(vector<int>& nums) {
         
-        int start = 0, end = (nums.size() - 1);
-        mergeSort(start, end, nums);
+        int len = nums.size();
+        mergeSort(0, len-1, nums);
         return nums;
-    };
+    }
 };
