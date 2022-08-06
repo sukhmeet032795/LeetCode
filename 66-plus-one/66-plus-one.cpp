@@ -10,7 +10,7 @@ public:
         };
         
         if (carry) {
-            digits.insert(digits.begin(), 1, 1);
+            digits.insert(digits.begin(), carry);
         };
         
         while(digits.size() != 1 && digits[0] == 0) {
