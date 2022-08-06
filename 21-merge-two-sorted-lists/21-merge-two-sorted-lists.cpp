@@ -14,29 +14,27 @@ public:
         
         ListNode* head = NULL, *curr = head;
         
+        auto func = [](ListNode** l, ListNode** head, ListNode** curr) -> void {
+            if ((*head) == NULL) { (*head) = (*curr) = (*l); }
+            else { (*curr)->next = (*l); (*curr) = (*curr)->next; }
+            (*l) = (*l)->next;
+        };
+        
         while(list1 && list2) {
             
             if (list1->val < list2->val) {
-                if (head == NULL) { head = curr = list1; }
-                else { curr->next = list1; curr = curr->next; }
-                list1 = list1->next;
+                func(&list1, &head, &curr);
             } else {
-                if (head == NULL) { head = curr = list2; }
-                else { curr->next = list2; curr = curr->next; }
-                list2 = list2->next;
+                func(&list2, &head, &curr);
             }
         };
         
         while(list1) {
-            if (head == NULL) { head = curr = list1; }
-            else { curr->next = list1; curr = curr->next; }
-            list1 = list1->next;
+            func(&list1, &head, &curr);
         };
         
         while(list2) {
-            if (head == NULL) { head = curr = list2; }
-            else { curr->next = list2; curr = curr->next; }
-            list2 = list2->next;
+            func(&list2, &head, &curr);
         };
         
         return head;
