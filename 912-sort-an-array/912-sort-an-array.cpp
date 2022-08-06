@@ -22,21 +22,23 @@ public:
         };
     };
     
-    void mergeSort(int start, int end, vector<int>& nums) {
+    void mergeSort(int &start, int &end, vector<int>& nums) {
         
         if (start >= end)
             return;
         
         int mid = (start + end) >> 1;
         mergeSort(start, mid, nums);
-        mergeSort(mid+1, end, nums);
+        mid++;
+        mergeSort(mid, end, nums);
+        mid--;
         merge(start, mid, end, nums);
     };
     
     vector<int> sortArray(vector<int>& nums) {
         
-        int len = nums.size();
-        mergeSort(0, len-1, nums);
+        int len = nums.size(), start = 0, end = (len - 1);
+        mergeSort(start, end, nums);
         return nums;
     }
 };
