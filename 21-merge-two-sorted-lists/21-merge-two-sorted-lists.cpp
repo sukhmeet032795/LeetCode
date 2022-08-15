@@ -10,33 +10,42 @@
  */
 class Solution {
 public:
+    void insertToLL(ListNode** head, ListNode** tail, ListNode* curr) {
+        
+        if ((*head) == nullptr) {
+            (*head) = (*tail) = curr;    
+        } else {
+            (*tail)->next = curr;
+            (*tail) = (*tail)->next;
+        };
+    };
+    
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         
-        ListNode* head = NULL, *curr = head;
-        
-        auto func = [](ListNode** l, ListNode** head, ListNode** curr) -> void {
-            if ((*head) == NULL) { (*head) = (*curr) = (*l); }
-            else { (*curr)->next = (*l); (*curr) = (*curr)->next; }
-            (*l) = (*l)->next;
-        };
+        ListNode* head = nullptr, *tail = nullptr, *tmp = nullptr;
         
         while(list1 && list2) {
-            
-            if (list1->val < list2->val) {
-                func(&list1, &head, &curr);
+            if (list1->val <= list2->val) {
+                insertToLL(&head, &tail, list1);
+                list1 = list1->next;
             } else {
-                func(&list2, &head, &curr);
+                insertToLL(&head, &tail, list2);
+                list2 = list2->next;
             }
         };
         
         while(list1) {
-            func(&list1, &head, &curr);
+            insertToLL(&head, &tail, list1);
+            list1 = list1->next;
         };
         
         while(list2) {
-            func(&list2, &head, &curr);
+            insertToLL(&head, &tail, list2);
+            list2 = list2->next;
         };
         
+        if (tail)
+            tail->next = nullptr;
         return head;
     }
 };
