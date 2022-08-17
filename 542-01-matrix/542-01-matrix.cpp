@@ -1,47 +1,42 @@
 class Solution {
 public:
-    
-    struct coords {
-        int x;
-        int y;
-        coords(int x1, int y1) {
-            x = x1;
-            y = y1;
-        };
-    };
-    
-    vector<vector<int>> direction = {{-1,0},{0,-1},{1,0},{0,1}};
-    
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        
         int m = mat.size(), n = mat[0].size();
-        vector<vector<int>> out(m, vector<int>(n, 0));
-        queue<coords> q;
+		
+		vector<vector<int>> res(m, vector<int>(n,INT_MAX));
+		
+		queue<pair<int,int>> q;
         
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                if(mat[i][j] == 0)
-                    q.push(coords(i, j));
-                else
-                    out[i][j] = INT_MAX;
-            }
-        }
-        
-        while(!q.empty()) {
-            coords p = q.front();
-            q.pop();
-            
-            for(int x = 0; x < 4; x++) {
-                int x1 = p.x + direction[x][0], y1 = p.y + direction[x][1];
-                if(x1 < 0 || y1 < 0 || x1 >= m || y1 >= n)
-                    continue;
-                if(out[x1][y1] > (out[p.x][p.y] + 1)) {
-                    out[x1][y1] = out[p.x][p.y] + 1;
-                    q.push(coords(x1, y1));
+		for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(mat[i][j]==0){
+                    res[i][j] = 0;
+                    q.push({i,j});
                 }
             }
         }
         
-        return out;
-    };
+		vector<pair<int,int>> dirs{{0,1},{1,0},{0,-1},{-1,0}};
+        
+        while(!q.empty()){
+            auto cur = q.front(); q.pop();
+		    int curx = cur.first;
+            int cury = cur.second;
+            
+		    for(auto dir: dirs){
+                int x = curx + dir.first;
+                int y = cury + dir.second;
+                
+		        if(x>=0 and x<m and y>=0 and y<n){
+				
+		            if(res[x][y] > res[curx][cury] + 1){
+                        res[x][y] = res[curx][cury] + 1;
+		                q.push({x,y});
+                    }
+                }
+            }
+        }
+        
+		return res;
+    }
 };
