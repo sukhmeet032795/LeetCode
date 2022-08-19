@@ -5,9 +5,9 @@ public:
     vector<vector<int>> combinations;
     void generateCombos(int start, vector<int>& curr) {
         
-        if(s.find(curr) == s.end()) {
-            s.insert(curr);
+        if(start >= curr.size()) {
             combinations.emplace_back(curr);
+            return;
         };
         
         for(int ind = start; ind < curr.size(); ind++) {
