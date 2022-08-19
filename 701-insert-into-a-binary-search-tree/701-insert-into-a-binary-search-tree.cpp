@@ -14,9 +14,7 @@ public:
     TreeNode* insertIntoBST(TreeNode* root, int val) {
         
         if (root == NULL) {
-            TreeNode* tmp = new TreeNode(val);
-            root = tmp;
-            return root;
+            return new TreeNode(val);
         };
         
         if (val < root->val) {
