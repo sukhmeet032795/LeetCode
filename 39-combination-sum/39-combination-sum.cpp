@@ -1,31 +1,28 @@
 class Solution {
 public:
     
-    vector<vector<int>> combinations;
-    set<vector<int>> existing;
-    
-    void getCombinations(const vector<int>& candidates, int target, vector<int>& curr, int index) {
+    vector<vector<int>> combos;
+    void getCombinations(vector<int>& candidates, int target, vector<int>& curr, int index) {
         
         if (target == 0) {
-            combinations.emplace_back(curr);
+            combos.emplace_back(curr);
             return;
         };
         
-        for(int itr = index; itr < candidates.size(); itr++) {
-            if (candidates[itr] <= target) {
-                curr.push_back(candidates[itr]);
-                getCombinations(candidates, target - candidates[itr], curr, itr);
+        for(int i = index; i < candidates.size(); i++) {
+            if (candidates[i] <= target) {
+                curr.emplace_back(candidates[i]);
+                getCombinations(candidates, target - candidates[i], curr, i);
                 curr.pop_back();
-            }
+            };
         };
     };
     
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         
-        combinations.clear();
-        existing.clear();
+        combos.clear();
         vector<int> curr;
         getCombinations(candidates, target, curr, 0);
-        return combinations;
+        return combos;
     }
 };
